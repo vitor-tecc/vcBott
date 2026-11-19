@@ -40,6 +40,8 @@ GRACE_SECONDS = float(os.environ.get("GRACE_SECONDS", 40))  # how long an empty 
 # {n} = room number, {user} = name of whoever created it. Leave the list empty to turn it off.
 SPECIAL_NAME_CHANCE = 0.01
 SPECIAL_NAME_MESSAGE = "👀"  # sent in the room's chat when a special name is rolled ("" = don't send)
+
+BOT_STATUS = "🪲" # text shown under the bot's name in the member list ("" = none)
 SPECIAL_NAMES = [
     "Toca do Amor 🐺",
     "Plantação de Kouve 🌱",
@@ -47,7 +49,7 @@ SPECIAL_NAMES = [
     "Rápida do besouro 🪲",
     "Matrix do PH 😎",
     "Safadeza do Bellion 🫦",
-    "Golpe de Estado?! ⛓️‍💥",
+    "Golpe de Estado?! ⛓️💥",
 ]
 CREATE_COOLDOWN_SECONDS = 10  # anti-spam: one room per user every 10s
 NOTICE_COOLDOWN_SECONDS = 15  # at most one chat notice per creator in this interval
@@ -147,6 +149,7 @@ class TempVoiceBot(discord.Client):
             max_messages=None,  # no message cache: less RAM
             max_ratelimit_timeout=30.0,  # never hang for minutes on a rate limit; raise RateLimited instead
             http_trace=trace,
+            activity=discord.CustomActivity(name=BOT_STATUS) if BOT_STATUS else None,
         )
         self.tree = app_commands.CommandTree(self)
         self.data = load_data()
